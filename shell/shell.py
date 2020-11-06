@@ -5,6 +5,8 @@ import os, sys, re
 def setPrompt():
     while True:
         defaultPrompt = os.getcwd() + "$"
+        
+        # PS1 variable
         if 'PS1' in os.environ:
             defaultPrompt = os.environ['PS1']
 
@@ -12,7 +14,7 @@ def setPrompt():
                 # Writes bytestring 1 to file descriptor bytes 
                 os.write(1, defaultPrompt.encode())
                 # Reads n bytes from associated file descriptor
-                data = os.read(0,10000)
+                data = os.read(0, 10000)
 
                 if len(data) == 0:
                     break
@@ -20,19 +22,19 @@ def setPrompt():
 
                 for information in data:
                     executeCommand(information.split())
-
+            # Error handling
             except EOFError:
                 sys.exit(1)
 
-
+# Shell Commands Method
 def shellCommands(data):
-
     # Checks if Empty
     if len(data) == 0:
         return
     # Exit Command 
     if data[0].lower() == 'exit':
         sys.exit(0)
+        
     # Directory Command
     if data[0].lower() == 'cd':
 
@@ -167,9 +169,9 @@ def redirectInputOutput(data):
     except Exception:
         sys.exit(1)
 
-    # Absolute oath not specified
+    # Absolute path not specified uses environ $PATH
     for dir in re.split(":", os.environ['$PATH']): 
-        targetDirectory  = "%s/%s" % (dir, args[0])
+        targetDirectory  = "%s/%s" % (dir, data[0])
         try:
             # Attempts execution
             os.execve(targetDirectory, data, os.environ)
@@ -182,13 +184,3 @@ def redirectInputOutput(data):
     sys.exit(1)
     
 setPrompt()
-
-
-            
-        
-            
-            
-        
-        
-        
-            
