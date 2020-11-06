@@ -60,7 +60,7 @@ def shellCommands(data):
         # Parent Process
         else:
             if data[-1] != "&":
-                value = os.wait()
+                state = os.wait()
                 if state[1] != 0 and state[1] != 256:
                     os.write(2, ("Program Terminated with exit code: %d\n" % state[1].encode()))
 
@@ -103,7 +103,7 @@ def simplePipes(data):
         for fileDescriptor in (readPipe, writePipe): 
            os.close(fileDescriptor)
         if "|" in read:
-            pipe(read)
+            simplePipes(read)
 
         # Calls method to run process
         redirectInputOutput(read)
