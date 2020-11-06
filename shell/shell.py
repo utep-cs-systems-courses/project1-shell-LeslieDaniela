@@ -52,7 +52,7 @@ def shellCommands(data):
         
         # Child Process
         if forking == 0:
-            pipe(data)
+            simplePipes(data)
         elif forking < 0:
             os.write(2, ("Failed to Fork \n").encode())
             sys.exit(1)
