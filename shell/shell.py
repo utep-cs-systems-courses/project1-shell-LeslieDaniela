@@ -21,7 +21,7 @@ def setPrompt():
                 data  = data.decode().split("\n")
 
                 for information in data:
-                    executeCommand(information.split())
+                    shellCommands(information.split())
             # Error handling
             except EOFError:
                 sys.exit(1)
