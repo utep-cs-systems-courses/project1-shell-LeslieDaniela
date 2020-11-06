@@ -76,7 +76,7 @@ def shellCommands(data):
             data.remove("&")
 
         if forking == 0:
-            redirectExecute(data)
+            redirectInputOutput(data)
         elif forking < 0 :
             os.write(2, ("Failed to Fork \n").encode())
             sys.exit(1)
