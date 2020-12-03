@@ -6,50 +6,37 @@ def main():
   
     while True:
 
-        # Prompt String 1
         if 'PS1' in os.environ:
             os.write(1, (os.environ['PS1']).encode())
-        
-        # Default Prompt
         else:
             os.write(1, ("$").encode())
 
         args = os.read(0, 1024)
-
         if len(args) == 0:
             break
-
         args = args.decode().split("\n")
-
         if not args: 
             continue
-        
         for arg in args:
             shellCommands(arg.split())
 
-# Shell Commands Method
+
 def shellCommands(args):
 
-    # Checks if Empty
     if len(args) == 0:
         return
 
-    # Exit Command 
     elif args[0].lower == "exit":
         sys.exit(0)
 
-    # Directory Command
     elif args[0] == "cd":
         
         try: 
-            # chdir for Navigating Directories
             os.chdir(args[1])
         
-        # cd <no directory> : Return to Parent Directory 
         except IndexError:
             os.write(2, ("Include Target Directory \n").encode())
 
-        # Directory Not Found 
         except FileNotFoundError:
             os.write(1, ("cd: %s: No such file or directory \n" % args[1]).encode())
             pass
